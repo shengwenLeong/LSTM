@@ -8,6 +8,6 @@
 #include "sigmoid.h"
 
 // sigmoid関数
-float sigmoid(float x){
+float sigmoid( x){
     return (1 / (1 + exp(-x)));
 }

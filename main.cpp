@@ -3,7 +3,10 @@
 #include <string.h>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
+#include <iterator>
 #include "lstm.h"
+#include "Fixe_Point.h"
 
 std::vector<float> Read_Data(std::string s){
     std::vector<float> results;
@@ -129,5 +132,41 @@ int main() {
     }
     std::cout<<std::endl;
     std::cout <<"======= Finish ========="<< std::endl;
+
+    std::cout <<"======= Fixed_Point ========="<< std::endl;
+
+    std::vector<std::vector<FixedPoint<1,7>>> Fixed_input_data;
+    std::vector<std::vector<FixedPoint<1,7>>> Fixed_y_data;
+    std::vector<std::vector<FixedPoint<1,7>>> FixedWeight_Z;
+    std::vector<std::vector<FixedPoint<1,7>>> FixedWeight_I;
+    std::vector<std::vector<FixedPoint<1,7>>> FixedWeight_F;
+    std::vector<std::vector<FixedPoint<1,7>>> FixedWeight_O;
+
+    std::vector<std::vector<FixedPoint<1,7>>> FixedRecurrent_Z;
+    std::vector<std::vector<FixedPoint<1,7>>> FixedRecurrent_I;
+    std::vector<std::vector<FixedPoint<1,7>>> FixedRecurrent_F;
+    std::vector<std::vector<FixedPoint<1,7>>> FixedRecurrent_O;
+
+    std::vector<std::vector<FixedPoint<1,7>>> FixedPeephole;
+
+    std::vector<std::vector<FixedPoint<1,7>>> FixedResult_C;
+    std::vector<std::vector<FixedPoint<1,7>>> FixedResult_Y;
+
+    std::cout <<"======= Content Visual Start ========="<< std::endl;
+    Fixed_input_data.resize(6);
+    for(int i=0; i<6; i++)
+    {
+        Fixed_input_data[i].resize(4);
+    }
+    for(int i=0; i<4; i++)
+    {
+        for(int j=0; j<3; j++){
+            Fixed_input_data[i][j] = input_data[i][j];
+            std::cout << Fixed_input_data[i][j] << " ";
+        }
+    }
+    std::cout <<"======= Content Visual END ========="<< std::endl;
+
+
     return 0;
 }
