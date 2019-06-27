@@ -25,6 +25,19 @@ std::vector<FixedPoint<1,7>> Read_Data(std::string s){
 
 }
 
+std::vector<FixedPoint<2,14>> Read_y_Data(std::string s){
+    std::vector<FixedPoint<2,14>> results;
+    float value;
+    std::stringstream ss(s);
+    while (ss >> value)
+    {
+        //std::cout <<value <<std::endl;
+        results.push_back(value);
+    }
+    return results;
+
+}
+
 int main() {
     std::cout << "Hello, World!" << std::endl;
     std::fstream in("../test_data.txt");
@@ -32,7 +45,7 @@ int main() {
 
 
     std::vector<std::vector<FixedPoint<1,7>>> input_data;
-    std::vector<std::vector<FixedPoint<1,7>>> y_data;
+    std::vector<std::vector<FixedPoint<2,14>>> y_data;
     std::vector<std::vector<FixedPoint<1,7>>> Weight_Z;
     std::vector<std::vector<FixedPoint<1,7>>> Weight_I;
     std::vector<std::vector<FixedPoint<1,7>>> Weight_F;
@@ -46,7 +59,7 @@ int main() {
     std::vector<std::vector<FixedPoint<1,7>>> Peephole;
 
     std::vector<std::vector<FixedPoint<1,7>>> Result_C;
-    std::vector<std::vector<FixedPoint<1,7>>> Result_Y;
+    std::vector<std::vector<FixedPoint<2,14>>> Result_Y;
 
     int i = 0;
 
@@ -82,7 +95,7 @@ int main() {
         }else if(i<47){
             Result_C.push_back(Read_Data(line));
         }else{
-            Result_Y.push_back(Read_Data(line));
+            Result_Y.push_back(Read_y_Data(line));
         }
         ++i;
     }
@@ -104,7 +117,7 @@ int main() {
     for(int i=0; i<6; i++)
     {
         for(int j=0; j<6; j++)
-            y_data[i][j] = (FixedPoint<1,7>)0;
+            y_data[i][j] = (FixedPoint<2,14>)0;
     }
 
     std::cout <<"======= start ========="<< std::endl;
@@ -123,7 +136,7 @@ int main() {
                                             Recurrent_Z[n],Recurrent_I[n],
                                             Recurrent_F[n],Recurrent_O[n],
                                             Peephole[n]);
-            y_data[t+1][n] = Y_temp.convert<1,7>();
+            y_data[t+1][n] = Y_temp;
             std::cout<<Y_temp<<std::endl;
         }
     }

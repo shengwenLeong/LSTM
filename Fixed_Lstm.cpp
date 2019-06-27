@@ -7,10 +7,10 @@
 
 namespace Fixed_LSTM{
 
-    Fixed_LSTM::Fixed_LSTM() : C_last((FixedPoint<1,7>)0) {}
+    Fixed_LSTM::Fixed_LSTM() : C_last((FixedPoint<2,14>)0) {}
     Fixed_LSTM::~Fixed_LSTM() {}
 
-    FixedPoint<2,14> Fixed_LSTM::Fixed_lstm_(std::vector<FixedPoint<1,7>> x_input, std::vector<FixedPoint<1,7>> y_input,
+    FixedPoint<2,14> Fixed_LSTM::Fixed_lstm_(std::vector<FixedPoint<1,7>> x_input, std::vector<FixedPoint<2,14>> y_input,
                       std::vector<FixedPoint<1,7>> Weight_Z,std::vector<FixedPoint<1,7>> Weight_I,
                       std::vector<FixedPoint<1,7>> Weight_F,std::vector<FixedPoint<1,7>> Weight_O,
                       std::vector<FixedPoint<1,7>> Recurrent_Z,std::vector<FixedPoint<1,7>> Recurrent_I,
@@ -57,7 +57,7 @@ namespace Fixed_LSTM{
             I_yr += y_input[i] * Recurrent_I[i];
         }
 
-        I = Fixed_sigmoid(I_xw + I_yr + C_last*Peephole[0]);
+        I = Fixed_sigmoid(I_xw + I_yr + (C_last*Peephole[0]).convert<2,14>());
 
         std::cout<<"---------------I--------------"<<std::endl;
 
@@ -75,13 +75,13 @@ namespace Fixed_LSTM{
             F_yr += y_input[i] * Recurrent_F[i];
         }
 
-        F = Fixed_sigmoid(F_xw + F_yr + C_last*Peephole[1]);
+        F = Fixed_sigmoid(F_xw + F_yr + (C_last*Peephole[1]).convert<2,14>());
 
         std::cout<<"---------------F--------------"<<std::endl;
         //--------C-----------------
         FixedPoint<2,14> C=0;
         C = (Z*I + C_last*F).convert<2,14>();
-        C_last = C.convert<1,7>();
+        C_last = C;
 
         //--------O-----------------
         FixedPoint<2,14> O = 0;

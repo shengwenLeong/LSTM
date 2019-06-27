@@ -17,13 +17,13 @@ namespace Fixed_LSTM{
 
     class Fixed_LSTM{
     private:
-        FixedPoint<1,7> C_last;
+        FixedPoint<2,14> C_last;
 
     public:
         Fixed_LSTM();
         ~Fixed_LSTM();
 
-        FixedPoint<2,14> Fixed_lstm_(std::vector<FixedPoint<1,7>> x_input, std::vector<FixedPoint<1,7>> y_input,
+        FixedPoint<2,14> Fixed_lstm_(std::vector<FixedPoint<1,7>> x_input, std::vector<FixedPoint<2,14>> y_input,
                     std::vector<FixedPoint<1,7>> Weight_Z,std::vector<FixedPoint<1,7>> Weight_I,
                     std::vector<FixedPoint<1,7>> Weight_F,std::vector<FixedPoint<1,7>> Weight_O,
                     std::vector<FixedPoint<1,7>> Recurrent_Z,std::vector<FixedPoint<1,7>> Recurrent_I,
